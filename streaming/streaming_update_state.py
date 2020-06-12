@@ -5,7 +5,7 @@ from pyspark.streaming import StreamingContext
 from pyspark.sql import SparkSession
 
 '''
-窗口函数都是有状态的操作,窗口函数都是多批次的操作;
+窗口函数都是有状态的操作
 有状态操作是跨时间区间跟踪处理数据的操作。依赖于之前批次的数据。
 https://blog.csdn.net/qq_35394891/article/details/82588275
 
@@ -31,9 +31,13 @@ class utils():
 
 u = utils()
 
+def update_function(new_values,pre_sum):
+    return sum(new_values)+(pre_sum or 0)
+
+
 if __name__=="__main__":
 
-    sc=u.getSparkContext(appName="streaming",master="local[1]",loglevel="error")
+    sc=u.getSparkContext(appName="streaming",master="local[2]",loglevel="error")
 
     ssc=StreamingContext(sparkContext=sc,batchDuration=2) #2s一个批次
 
@@ -44,11 +48,12 @@ if __name__=="__main__":
     words_stream=lines_stream.flatMap(lambda x:x.split(" "))
     kv_words = words_stream.map(lambda x: (x, 1))
 
-    # word_count=words.map(lambda x:(x,1)).reduceByKey(lambda x1,x2:x1+x2)
-    # word_count.pprint()
+    state_words_count =  kv_words.updateStateByKey(update_function)
 
-    window_words = kv_words.reduceByKeyAndWindow(lambda a,b:a+b,lambda m,n:m-n,4,2)
-    window_words.pprint()
+    state_words_count.pprint()
+
+    state_words_count.pprint()
+
 
     ssc.start()
     ssc.awaitTermination()
