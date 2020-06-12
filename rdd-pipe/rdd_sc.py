@@ -6,7 +6,7 @@ import spark_test
 if __name__=="__main__":
 
     spark_conf = SparkConf()
-    spark_conf.setAppName("rdd-df").setMaster("local[2]")
+    spark_conf.setAppName("rdd-pipe").setMaster("local[2]")
 
     #pyspark程序的入口
     sc = SparkContext(conf=spark_conf)
