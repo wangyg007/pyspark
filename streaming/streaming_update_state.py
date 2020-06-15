@@ -5,8 +5,8 @@ from pyspark.streaming import StreamingContext
 from pyspark.sql import SparkSession
 
 '''
-窗口函数都是有状态的操作
-有状态操作是跨时间区间跟踪处理数据的操作。依赖于之前批次的数据。
+窗口函数都是有状态的操作,因为依赖之前batchDuration的数据;有状态操作是跨时间区间跟踪处理数据的操作
+
 https://blog.csdn.net/qq_35394891/article/details/82588275
 
 '''
