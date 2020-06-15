@@ -16,7 +16,7 @@ class utils():
     def __init__(self):
         pass
 
-    def getSparkContext(self,appName, master, loglevel="WARN"):
+    def getSparkContext(self,appName, master, loglevel="INFO"):
         conf = SparkConf()
         conf.setAppName(appName).setMaster(master)
         sc = SparkContext(conf=conf)
@@ -51,9 +51,6 @@ if __name__=="__main__":
     state_words_count =  kv_words.updateStateByKey(update_function)
 
     state_words_count.pprint()
-
-    state_words_count.pprint()
-
 
     ssc.start()
     ssc.awaitTermination()
