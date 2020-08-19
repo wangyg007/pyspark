@@ -11,3 +11,4 @@ gen
 venv
 
 /streaming/chepoint/
+streaming/__pycache__/
